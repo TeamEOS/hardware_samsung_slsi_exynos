@@ -1,5 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
+PLATFORM_DIR := $(TARGET_BOARD_PLATFORM)-insignal
+
 include $(CLEAR_VARS)
 
 LOCAL_MODULE_TAGS := optional
@@ -8,7 +10,7 @@ LOCAL_SRC_FILES := \
 	csc.c
 
 LOCAL_C_INCLUDES := \
-	hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include \
+	hardware/samsung_slsi/$(PLATFORM_DIR)/include \
 	$(LOCAL_PATH)/../include \
 	$(LOCAL_PATH)/../libexynosutils
 
