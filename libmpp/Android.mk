@@ -23,7 +23,7 @@ LOCAL_C_INCLUDES += \
 	$(TOP)/hardware/samsung_slsi/exynos/libexynosutils \
 	$(TOP)/hardware/samsung_slsi/exynos3/include \
 	$(TOP)/hardware/samsung_slsi/exynos4/include \
-	$(TOP)/hardware/samsung_slsi/exynos5/include
+	$(TOP)/hardware/samsung_slsi/exynos5-insignal/include
 
 LOCAL_SRC_FILES := MppFactory.cpp
 LOCAL_MODULE_TAGS := eng
