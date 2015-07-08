@@ -98,11 +98,14 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../include \
 	$(LOCAL_PATH)/../libhwcutils \
 	$(LOCAL_PATH)/../libdisplay \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include \
+	$(LOCAL_PATH)/../libmpp \
+	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)-insignal/include \
 	$(TOP)/hardware/samsung_slsi/exynos/libexynosutils \
 	$(TOP)/hardware/samsung_slsi/exynos/libcec \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/include \
+	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhdmimodule \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcmodule \
+	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcutilsmodule \
 	$(TOP)/system/core/libsync/include
 
 LOCAL_ADDITIONAL_DEPENDENCIES := \
