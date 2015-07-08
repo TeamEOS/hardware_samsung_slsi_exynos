@@ -40,14 +40,14 @@ endif
 
 ifeq ($(BOARD_USES_IP_SERVICE), true)
 	LOCAL_CFLAGS += -DIP_SERVICE
-	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/libipService
+	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)-insignal/libipService
 	LOCAL_SHARED_LIBRARIES += libExynosIPService
 endif
 
 ifeq ($(BOARD_USES_HWC_SERVICES),true)
 	LOCAL_SHARED_LIBRARIES += libExynosHWCService
 	LOCAL_CFLAGS += -DHWC_SERVICES
-	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/libhwcService
+	LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)-insignal/libhwcService
 
 ifeq ($(BOARD_USES_WFD),true)
 	LOCAL_CFLAGS += -DUSES_WFD
@@ -93,7 +93,7 @@ endif
 
 LOCAL_CFLAGS += -DLOG_TAG=\"hwcomposer\"
 
-LOCAL_C_INCLUDES := \
+LOCAL_C_INCLUDES += \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(LOCAL_PATH)/../include \
 	$(LOCAL_PATH)/../libhwcutils \
@@ -103,6 +103,7 @@ LOCAL_C_INCLUDES := \
 	$(TOP)/hardware/samsung_slsi/exynos/libexynosutils \
 	$(TOP)/hardware/samsung_slsi/exynos/libcec \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/include \
+	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libdisplaymodule \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhdmimodule \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcmodule \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcutilsmodule \

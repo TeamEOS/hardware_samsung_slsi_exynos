@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-ifeq ($(BOARD_USE_VP8ENC_SUPPORT), true)
+ifeq ($(BOARD_USE_VP8ENC_SU(TARGET_BOARD_PLATFORM)-insignal/PPORT), true)
 LOCAL_CFLAGS += -DUSE_VP8ENC_SUPPORT
 endif
 
@@ -15,7 +15,7 @@ LOCAL_C_INCLUDES := \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(LOCAL_PATH)/include \
 	$(TOP)/hardware/samsung_slsi/exynos/include \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include
+	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)-insignal/include
 
 LOCAL_ADDITIONAL_DEPENDENCIES += \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr

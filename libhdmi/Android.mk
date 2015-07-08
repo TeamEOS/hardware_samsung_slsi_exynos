@@ -33,7 +33,7 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/../libhwcutils \
 	$(LOCAL_PATH)/../libdisplay \
 	$(LOCAL_PATH)/../libhwc \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include \
+	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)-insignal/include \
 	$(TOP)/hardware/samsung_slsi/exynos/libexynosutils \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/include \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcmodule \
