@@ -38,16 +38,21 @@ ifeq ($(BOARD_USES_VIRTUAL_DISPLAY), true)
 endif
 
 LOCAL_C_INCLUDES := \
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(LOCAL_PATH)/../include \
 	$(LOCAL_PATH)/../libhwcutils \
 	$(LOCAL_PATH)/../libdisplay \
 	$(LOCAL_PATH)/../libhwc \
-	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include \
+	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)-insignal/include \
 	$(TOP)/hardware/samsung_slsi/exynos/libexynosutils \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/include \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcmodule \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libhwcutilsmodule \
-	$(TOP)/hardware/samsung_slsi/exynos/libmpp
+	$(TOP)/hardware/samsung_slsi/exynos/libmpp \
+	$(TOP)/system/core/libsync/include
+
+LOCAL_ADDITIONAL_DEPENDENCIES := \
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 LOCAL_SRC_FILES := \
 	ExynosExternalDisplay.cpp
