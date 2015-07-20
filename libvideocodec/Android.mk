@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-ifeq ($(BOARD_USE_VP8ENC_SU(TARGET_BOARD_PLATFORM)-insignal/PPORT), true)
+ifeq ($(BOARD_USE_VP8ENC_SUPPORT), true)
 LOCAL_CFLAGS += -DUSE_VP8ENC_SUPPORT
 endif
 
