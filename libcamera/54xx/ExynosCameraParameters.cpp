@@ -2875,7 +2875,6 @@ status_t ExynosCameraParameters::checkExposureCompensation(const CameraParameter
     int minExposureCompensation = params.getInt(CameraParameters::KEY_MIN_EXPOSURE_COMPENSATION);
     int maxExposureCompensation = params.getInt(CameraParameters::KEY_MAX_EXPOSURE_COMPENSATION);
     int newExposureCompensation = params.getInt(CameraParameters::KEY_EXPOSURE_COMPENSATION);
-    int curExposureCompensation = getExposureCompensation();
 
     ALOGD("DEBUG(%s):newExposureCompensation %d", "setParameters", newExposureCompensation);
 
@@ -2884,10 +2883,7 @@ status_t ExynosCameraParameters::checkExposureCompensation(const CameraParameter
         ALOGE("ERR(%s): Invalide Exposurecompensation (Min: %d, Max: %d, Value: %d)", __FUNCTION__,
             minExposureCompensation, maxExposureCompensation, newExposureCompensation);
         return BAD_VALUE;
-    }
-
-    if (curExposureCompensation != newExposureCompensation) {
-        m_setExposureCompensation(newExposureCompensation);
+    } else {
         m_params.set(CameraParameters::KEY_EXPOSURE_COMPENSATION, newExposureCompensation);
     }
 
@@ -2896,6 +2892,7 @@ status_t ExynosCameraParameters::checkExposureCompensation(const CameraParameter
 
 /* TODO: Who explane this offset value? */
 #define FW_CUSTOM_OFFSET (1)
+#if 0
 /* F/W's middle value is 5, and step is -4, -3, -2, -1, 0, 1, 2, 3, 4 */
 void ExynosCameraParameters::m_setExposureCompensation(int32_t value)
 {
@@ -2908,6 +2905,7 @@ int32_t ExynosCameraParameters::getExposureCompensation(void)
     getMetaCtlExposureCompensation(&m_metadata, &expCompensation);
     return expCompensation - IS_EXPOSURE_DEFAULT - FW_CUSTOM_OFFSET;
 }
+#endif
 
 status_t ExynosCameraParameters::checkMeteringAreas(const CameraParameters& params)
 {
@@ -4306,8 +4304,14 @@ void ExynosCameraParameters::setExifChangedAttribute(exif_attribute_t *exifInfo,
     ALOGD("DEBUG(%s):brightness   (%d/%d)", __FUNCTION__, exifInfo->brightness.num, exifInfo->brightness.den);
 
     /* 3 Exposure Bias */
-    exifInfo->exposure_bias.num = (int32_t)getExposureCompensation() * 5;
-    exifInfo->exposure_bias.den = 10;
+    if (m_cameraInfo.sceneMode== AA_SCENE_MODE_BEACH||
+        m_cameraInfo.sceneMode== AA_SCENE_MODE_SNOW) {
+        exifInfo->exposure_bias.num = EXIF_DEF_APEX_DEN;
+        exifInfo->exposure_bias.den = EXIF_DEF_APEX_DEN;
+    } else {
+        exifInfo->exposure_bias.num = 0;
+        exifInfo->exposure_bias.den = 0;
+    }
     /* 3 Metering Mode */
     switch (m_cameraInfo.meteringMode) {
     case METERING_MODE_CENTER:
@@ -4575,18 +4579,14 @@ status_t ExynosCameraParameters::checkBrightness(const CameraParameters& params)
     if (newBrightness < minBrightness || newBrightness > maxBrightness) {
         ALOGE("ERR(%s): Invalid Brightness (Min: %d, Max: %d, Value: %d)", __FUNCTION__, minBrightness, maxBrightness, newBrightness);
         return BAD_VALUE;
-    }
-
-    curBrightness = getBrightness();
-
-    if (curBrightness != newBrightness) {
-        m_setBrightness(newBrightness);
+    } else {
         m_params.set("brightness", newBrightness);
     }
 
     return NO_ERROR;
 }
 
+#if 0
 /* F/W's middle value is 3, and step is -2, -1, 0, 1, 2 */
 void ExynosCameraParameters::m_setBrightness(int brightness)
 {
@@ -4600,6 +4600,7 @@ int ExynosCameraParameters::getBrightness(void)
     getMetaCtlBrightness(&m_metadata, &brightness);
     return brightness - IS_BRIGHTNESS_DEFAULT - FW_CUSTOM_OFFSET;
 }
+#endif
 
 status_t ExynosCameraParameters::checkSaturation(const CameraParameters& params)
 {
@@ -4613,18 +4614,14 @@ status_t ExynosCameraParameters::checkSaturation(const CameraParameters& params)
     if (newSaturation < minSaturation || newSaturation > maxSaturation) {
         ALOGE("ERR(%s): Invalid Saturation (Min: %d, Max: %d, Value: %d)", __FUNCTION__, minSaturation, maxSaturation, newSaturation);
         return BAD_VALUE;
-    }
-
-    curSaturation = getSaturation();
-
-    if (curSaturation != newSaturation) {
-        m_setSaturation(newSaturation);
+    } else {
         m_params.set("saturation", newSaturation);
     }
 
     return NO_ERROR;
 }
 
+#if 0
 void ExynosCameraParameters::m_setSaturation(int saturation)
 {
     setMetaCtlSaturation(&m_metadata, saturation + IS_SATURATION_DEFAULT + FW_CUSTOM_OFFSET);
@@ -4637,6 +4634,7 @@ int ExynosCameraParameters::getSaturation(void)
     getMetaCtlSaturation(&m_metadata, &saturation);
     return saturation - IS_SATURATION_DEFAULT - FW_CUSTOM_OFFSET;
 }
+#endif
 
 status_t ExynosCameraParameters::checkSharpness(const CameraParameters& params)
 {
@@ -4650,18 +4648,14 @@ status_t ExynosCameraParameters::checkSharpness(const CameraParameters& params)
     if (newSharpness < minSharpness || newSharpness > maxSharpness) {
         ALOGE("ERR(%s): Invalid Sharpness (Min: %d, Max: %d, Value: %d)", __FUNCTION__, minSharpness, maxSharpness, newSharpness);
         return BAD_VALUE;
-    }
-
-    curSharpness = getSharpness();
-
-    if (curSharpness != newSharpness) {
-        m_setSharpness(newSharpness);
+    } else {
         m_params.set("sharpness", newSharpness);
     }
 
     return NO_ERROR;
 }
 
+#if 0
 void ExynosCameraParameters::m_setSharpness(int sharpness)
 {
     int newSharpness = sharpness + IS_SHARPNESS_DEFAULT;
@@ -4685,6 +4679,7 @@ int ExynosCameraParameters::getSharpness(void)
     getMetaCtlSharpness(&m_metadata, &mode, &sharpness);
     return sharpness - IS_SHARPNESS_DEFAULT - FW_CUSTOM_OFFSET;
 }
+#endif
 
 status_t ExynosCameraParameters::checkHue(const CameraParameters& params)
 {
@@ -4698,18 +4693,14 @@ status_t ExynosCameraParameters::checkHue(const CameraParameters& params)
     if (newHue < minHue || newHue > maxHue) {
         ALOGE("ERR(%s): Invalid Hue (Min: %d, Max: %d, Value: %d)", __FUNCTION__, minHue, maxHue, newHue);
         return BAD_VALUE;
-    }
-
-    curHue = getHue();
-
-    if (curHue != newHue) {
-        m_setHue(newHue);
+    } else {
         m_params.set("hue", newHue);
     }
 
     return NO_ERROR;
 }
 
+#if 0
 void ExynosCameraParameters::m_setHue(int hue)
 {
     setMetaCtlHue(&m_metadata, hue + IS_HUE_DEFAULT + FW_CUSTOM_OFFSET);
@@ -4722,6 +4713,7 @@ int ExynosCameraParameters::getHue(void)
     getMetaCtlHue(&m_metadata, &hue);
     return hue - IS_HUE_DEFAULT - FW_CUSTOM_OFFSET;
 }
+#endif
 
 status_t ExynosCameraParameters::checkIso(const CameraParameters& params)
 {
@@ -4790,17 +4782,17 @@ status_t ExynosCameraParameters::checkContrast(const CameraParameters& params)
     ALOGD("DEBUG(%s):strNewContrast %s", "setParameters", strNewContrast);
 
     if (!strcmp(strNewContrast, "auto"))
-        newContrast = IS_CONTRAST_DEFAULT;
+        newContrast = CONTRAST_DEFAULT;
     else if (!strcmp(strNewContrast, "-2"))
-        newContrast = IS_CONTRAST_MINUS_2;
+        newContrast = CONTRAST_MINUS_2;
     else if (!strcmp(strNewContrast, "-1"))
-        newContrast = IS_CONTRAST_MINUS_1;
+        newContrast = CONTRAST_MINUS_1;
     else if (!strcmp(strNewContrast, "0"))
-        newContrast = IS_CONTRAST_DEFAULT;
+        newContrast = CONTRAST_DEFAULT;
     else if (!strcmp(strNewContrast, "1"))
-        newContrast = IS_CONTRAST_PLUS_1;
+        newContrast = CONTRAST_PLUS_1;
     else if (!strcmp(strNewContrast, "2"))
-        newContrast = IS_CONTRAST_PLUS_2;
+        newContrast = CONTRAST_PLUS_2;
     else {
         ALOGE("ERR(%s):Invalid contrast value(%s)", __FUNCTION__, strNewContrast);
         return BAD_VALUE;
