@@ -21,12 +21,12 @@
 #include <cutils/properties.h>
 #include <utils/threads.h>
 #include <utils/String8.h>
+#include <linux/videodev2_exynos_media.h>
 
 #include "exynos_format.h"
 #include "ExynosRect.h"
 #include "fimc-is-metadata.h"
 #include "ExynosCameraSensorInfo.h"
-#include "videodev2_exynos_media.h"
 #include "ExynosCameraBuffer.h"
 #include "ExynosCameraConfig.h"
 
