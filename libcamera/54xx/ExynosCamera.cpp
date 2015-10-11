@@ -734,6 +734,9 @@ status_t ExynosCamera::startPreview()
             if (ret < 0)
                 ALOGE("ERR(%s[%d]):FLITE setControl fail, ret(%d)", __FUNCTION__, __LINE__, ret);
 
+#ifndef V4L2_CID_IS_SCENE_MODE
+#define V4L2_CID_IS_SCENE_MODE ((0x009a0000 | 0x1000) + 667)
+#endif
             ret = m_previewFrameFactory->setControl(V4L2_CID_IS_SCENE_MODE, initMetaData->shot.ctl.aa.sceneMode, PIPE_FLITE);
             if (ret < 0)
                 ALOGE("ERR(%s[%d]):FLITE setControl fail, ret(%d)", __FUNCTION__, __LINE__, ret);
@@ -3152,7 +3155,7 @@ status_t ExynosCamera::m_setCallbackBufferInfo(ExynosCameraBuffer *callbackBuf, 
         callbackBuf->addr[2] = callbackBuf->addr[1] + callbackBuf->size[1];
     }
 
-    ALOGV("DEBUG(%s): preview size(%dx%d)", __FUNCTION__, hwPreviewW, hwPreviewH);
+    //ALOGV("DEBUG(%s): preview size(%dx%d)", __FUNCTION__, hwPreviewW, hwPreviewH);
     ALOGV("DEBUG(%s): dst_size(%dx%d), dst_crop_size(%dx%d)", __FUNCTION__, dst_width, dst_height, dst_crop_width, dst_crop_height);
 
     return NO_ERROR;
@@ -6206,7 +6209,7 @@ status_t ExynosCamera::m_checkThreadInterval(uint32_t pipeId, uint32_t pipeInter
         ret = false;
     } else {
         ALOGV("Thread IntervalTime [%lld]", *threadInterval);
-        ALOGV("Thread Renew Count [%d]", *countRenew);
+        //ALOGV("Thread Renew Count [%d]", *countRenew);
         ret = NO_ERROR;
     }
 
